@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "584616920193",
+    "firebase_url": "https://warehouseapp-ae4e1-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "warehouseapp-ae4e1",
+    "storage_bucket": "warehouseapp-ae4e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584616920193:android:697a15870868dfbe0cb980",
+        "android_client_info": {
+          "package_name": "com.example.warehouse_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584616920193-s1bkr8c0j7c1de6f8f7fa05th8hp7f0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBv_4UJAs6yz7iTjWOdIvaCPcSI1oFDLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584616920193-s1bkr8c0j7c1de6f8f7fa05th8hp7f0q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
