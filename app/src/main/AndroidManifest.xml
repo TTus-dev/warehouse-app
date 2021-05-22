@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Warehouseapp">
         <activity android:name=".Order_Activity" />
-        <activity android:name=".RV_activity" />
+        <activity android:name=".RV_activity"
+            android:theme="@style/Theme.Warehouseapp.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

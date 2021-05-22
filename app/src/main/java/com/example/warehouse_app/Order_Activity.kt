@@ -3,7 +3,6 @@ package com.example.warehouse_app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,9 +35,9 @@ class Order_Activity : AppCompatActivity() {
         order_id = intent.getStringExtra("order_id")!!
         order_index = intent.getIntExtra("order_index", 0)
 
-        findViewById<Button>(R.id.readybtn).setOnClickListener {
+        readybtn.setOnClickListener {
             db.collection("Orders").document(order_id).delete()
-            var result_intent = Intent()
+            val result_intent = Intent()
             result_intent.putExtra("result", order_index)
             setResult(1, result_intent)
             finish()
