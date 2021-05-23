@@ -8,7 +8,7 @@
     android:paddingBottom="16dp"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:background="@color/teal_700">
+    android:background="@color/purple_700">
 
 
     <TextView

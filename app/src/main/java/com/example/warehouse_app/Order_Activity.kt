@@ -1,9 +1,12 @@
 package com.example.warehouse_app
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -17,6 +20,7 @@ class Order_Activity : AppCompatActivity() {
     }
     var order_id = ""
     var order_index = 0
+    var docid = ""
     var item_list = ArrayList<ArrayList<String>>()
     var item_ids_arr = ArrayList<String>()
     private val RV_Adapter = RecycleView_Adapter(this, item_list)
@@ -26,24 +30,38 @@ class Order_Activity : AppCompatActivity() {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_order)
-
         db.firestoreSettings = settings
         order_id = intent.getStringExtra("order_id")!!
         order_index = intent.getIntExtra("order_index", 0)
+        docid = intent.getStringExtra("docid")!!
 
-        readybtn.setOnClickListener {
-            db.collection("Orders").document(order_id).delete()
-            val result_intent = Intent()
-            result_intent.putExtra("result", order_index)
-            setResult(1, result_intent)
-            finish()
+        if(docid == "Orders") {
+            setContentView(R.layout.activity_order)
+            readybtn.setOnClickListener {
+                val alert_builder = AlertDialog.Builder(this)
+                alert_builder.setTitle("Czy napewno chcesz się wylogować")
+                alert_builder.setNegativeButton("Tak") { _: DialogInterface, _: Int ->
+                    val result_intent = Intent()
+                    result_intent.putExtra("result", order_index)
+                    result_intent.putExtra("document_id", order_id)
+                    setResult(1, result_intent)
+                    finish()
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                }
+                alert_builder.setPositiveButton("Nie"){ _: DialogInterface, _: Int ->}
+                alert_builder.show()
+            }
         }
+        else
+            setContentView(R.layout.activity_order_completed)
 
-        db.collection("Orders").document(order_id)
+        Log.d("dbg", "docid: $docid")
+
+        db.collection(docid).document(order_id)
                 .get()
                 .addOnSuccessListener {
                     item_ids_arr = it["Item_array"] as ArrayList<String>
