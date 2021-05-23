@@ -4,7 +4,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,8 +57,6 @@ class Order_Activity : AppCompatActivity() {
         }
         else
             setContentView(R.layout.activity_order_completed)
-
-        Log.d("dbg", "docid: $docid")
 
         db.collection(docid).document(order_id)
                 .get()

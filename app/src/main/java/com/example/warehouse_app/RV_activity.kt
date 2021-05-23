@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
@@ -115,7 +114,6 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
     private fun move_to_completed(completed_docid : String, array_id : Int){
         var _1: HashMap<String, String>
         var _2: ArrayList<String>
-        Log.d("dbg", "Dcid: " + completed_docid)
         db.collection("Orders")
             .document(completed_docid)
             .get()
@@ -123,7 +121,6 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
                 if (it.isSuccessful) {
                     _1 = it.result!!.data as HashMap<String, String>
                     _2 = it.result!!.data?.get("Item_array") as ArrayList<String>
-                    Log.d("dbg", "_1: " + _1 + " _2: " + _2)
                     val new_id = db.collection("Completed_orders").document().id
                     val new_doc = db.collection("Completed_orders").document(new_id)
                     new_doc.set(_1)
