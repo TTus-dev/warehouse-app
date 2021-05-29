@@ -2,4 +2,14 @@
     <string name="app_name">warehouse-app</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string-array name="spinner_items">
+        <item>Adres</item>
+        <item>Numer</item>
+        <item>Ilość</item>
+    </string-array>
+    <string-array name="order_spinner_items">
+        <item>Adres</item>
+        <item>Kod</item>
+        <item>Ilość</item>
+    </string-array>
 </resources>

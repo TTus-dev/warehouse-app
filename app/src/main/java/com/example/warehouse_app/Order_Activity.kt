@@ -4,14 +4,17 @@ import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import kotlinx.android.synthetic.main.activity_order.*
+import kotlinx.android.synthetic.main.activity_order.order_rv
+import kotlinx.android.synthetic.main.activity_order_completed.*
 
-class Order_Activity : AppCompatActivity() {
+class Order_Activity : AppCompatActivity(), FilterDialog.DialogListener {
 
     val db = FirebaseFirestore.getInstance()
     val settings = firestoreSettings {
@@ -20,14 +23,46 @@ class Order_Activity : AppCompatActivity() {
     var order_id = ""
     var order_index = 0
     var docid = ""
+    var default_item_list = ArrayList<ArrayList<String>>()
     var item_list = ArrayList<ArrayList<String>>()
     var item_ids_arr = ArrayList<String>()
+    val dialog = FilterDialog()
     private val RV_Adapter = RecycleView_Adapter(this, item_list)
 
     override fun onBackPressed(){
         super.onBackPressed()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
+
+    override fun Filter(filtered_txt: String, field_id: Int) {
+        Resetfilter()
+        default_item_list.clear()
+        default_item_list.addAll(item_list)
+        item_list.clear()
+        for ( i in 0..default_item_list.size-1){
+            if (filtered_txt == default_item_list[i][field_id]) {
+                item_list.add(default_item_list[i])
+            }
+        }
+        RV_Adapter.notifyDataSetChanged()
+    }
+
+    override fun Resetfilter() {
+        if (default_item_list.size != 0) {
+            item_list.clear()
+            item_list.addAll(default_item_list)
+            default_item_list.clear()
+            RV_Adapter.notifyDataSetChanged()
+        }
+    }
+
+    fun set_dialog(btn : Button){
+        btn.setOnClickListener {
+            dialog.completed_bool = true
+            dialog.show(supportFragmentManager, "Dialog")
+        }
+    }
+
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +73,12 @@ class Order_Activity : AppCompatActivity() {
         order_index = intent.getIntExtra("order_index", 0)
         docid = intent.getStringExtra("docid")!!
 
+
         if(docid == "Orders") {
             setContentView(R.layout.activity_order)
             readybtn.setOnClickListener {
                 val alert_builder = AlertDialog.Builder(this)
-                alert_builder.setTitle("Czy napewno chcesz się wylogować")
+                alert_builder.setTitle("Czy napewno chcesz zatwierdzić zamówienie ?")
                 alert_builder.setNegativeButton("Tak") { _: DialogInterface, _: Int ->
                     val result_intent = Intent()
                     result_intent.putExtra("result", order_index)
@@ -54,9 +90,12 @@ class Order_Activity : AppCompatActivity() {
                 alert_builder.setPositiveButton("Nie"){ _: DialogInterface, _: Int ->}
                 alert_builder.show()
             }
+            set_dialog(order_items_filter)
         }
-        else
+        else {
             setContentView(R.layout.activity_order_completed)
+            set_dialog(completed_order_filter)
+        }
 
         db.collection(docid).document(order_id)
                 .get()

@@ -9,13 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Warehouseapp">
-        <activity android:name=".Order_Activity" />
+        <activity android:name=".Order_Activity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".RV_activity"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.Warehouseapp.NoActionBar" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -20,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import kotlin.collections.ArrayList
 
-class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FilterDialog.DialogListener {
 
     private val db = FirebaseFirestore.getInstance()
     private var db_call_val = "Orders"
@@ -29,6 +30,7 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
     }
     lateinit var drawer : DrawerLayout
     private var user_id = ""
+    private var default_rv_list = ArrayList<ArrayList<String>>()
     private var rv_list = ArrayList<ArrayList<String>>()
     private val RV_Adapter = RecycleView_Adapter(this, rv_list)
 
@@ -64,6 +66,44 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
                 db_call(db_call_val)
                 RV_Adapter.notifyDataSetChanged()
             }
+        }
+
+        filter.setOnClickListener {
+            val exdialog = FilterDialog()
+            exdialog.show(supportFragmentManager, "Dialog")
+        }
+    }
+
+    fun empty_list() {
+        if (rv_list.size > 0){
+            empty_txtvw.visibility = View.GONE
+        }
+        else{
+            empty_txtvw.visibility = View.VISIBLE
+        }
+    }
+
+    override fun Filter(filtered_txt: String, field_id: Int) {
+        Resetfilter()
+        default_rv_list.clear()
+        default_rv_list.addAll(rv_list)
+        rv_list.clear()
+        for ( i in 0..default_rv_list.size-1){
+            if (filtered_txt == default_rv_list[i][field_id]) {
+                rv_list.add(default_rv_list[i])
+            }
+        }
+        empty_list()
+        RV_Adapter.notifyDataSetChanged()
+    }
+
+    override fun Resetfilter() {
+        if (default_rv_list.size != 0) {
+            rv_list.clear()
+            rv_list.addAll(default_rv_list)
+            default_rv_list.clear()
+            empty_list()
+            RV_Adapter.notifyDataSetChanged()
         }
     }
 
@@ -150,6 +190,7 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
 
             R.id.nav_current_orders ->
             {
+                default_rv_list.clear()
                 swipe_refreshlayout.isEnabled = true
                 db_call_val = "Orders"
                 db_call(db_call_val)
@@ -159,6 +200,7 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
 
             R.id.nav_completed_orders ->
             {
+                default_rv_list.clear()
                 swipe_refreshlayout.isEnabled = false
                 swipe_refreshlayout.isRefreshing = false
                 db_call_val = "Completed_orders"
@@ -199,6 +241,7 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
                             if (!rv_list.contains(inner_array)){
                                 rv_list.add(inner_array)
                             }
+                            empty_list()
                             RV_Adapter.notifyDataSetChanged()
                         }
                     }

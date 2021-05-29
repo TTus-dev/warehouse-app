@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/filtered_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:autofillHints="Searched"
+        app:layout_constraintEnd_toStartOf="@+id/field_spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/field_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@+id/filtered_text"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:entries="@array/spinner_items"
+        app:layout_constraintBottom_toBottomOf="@+id/filtered_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/filtered_text_completed_order"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:hint="Name"
+        android:autofillHints="Searched"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/field_spinner_completed_order"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone" />
+
+    <Spinner
+        android:id="@+id/field_spinner_completed_order"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@+id/filtered_text"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:entries="@array/order_spinner_items"
+        app:layout_constraintBottom_toBottomOf="@+id/filtered_text_completed_order"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
