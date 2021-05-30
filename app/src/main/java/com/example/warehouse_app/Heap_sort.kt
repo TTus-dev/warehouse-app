@@ -1,6 +1,5 @@
 package com.example.warehouse_app
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 
 open class Heap_sort : AppCompatActivity() {
