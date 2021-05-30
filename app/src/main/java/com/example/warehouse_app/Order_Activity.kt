@@ -12,6 +12,7 @@ import com.google.firebase.firestore.ktx.firestoreSettings
 import kotlinx.android.synthetic.main.activity_order.*
 import kotlinx.android.synthetic.main.activity_order.order_rv
 import kotlinx.android.synthetic.main.activity_order_completed.*
+import kotlinx.android.synthetic.main.activity_r_v_activity.*
 
 class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.DialogListener{
 
@@ -51,9 +52,18 @@ class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.Dial
         default_item_list.clear()
         default_item_list.addAll(item_list)
         item_list.clear()
-        for ( i in 0..default_item_list.size-1){
-            if (filtered_txt == default_item_list[i][field_id]) {
-                item_list.add(default_item_list[i])
+        if (field_id > 1){
+            for (i in 0..default_item_list.size - 1) {
+                if (default_item_list[i][field_id].toInt() == filtered_txt.toInt()) {
+                    item_list.add(default_item_list[i])
+                }
+            }
+        }
+        else {
+            for (i in 0..default_item_list.size - 1) {
+                if (default_item_list[i][field_id].contains(filtered_txt, true)) {
+                    item_list.add(default_item_list[i])
+                }
             }
         }
         RV_Adapter.notifyDataSetChanged()
@@ -91,7 +101,6 @@ class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.Dial
         order_index = intent.getIntExtra("order_index", 0)
         docid = intent.getStringExtra("docid")!!
 
-
         if(docid == "Orders") {
             setContentView(R.layout.activity_order)
             readybtn.setOnClickListener {
@@ -114,6 +123,11 @@ class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.Dial
             setContentView(R.layout.activity_order_completed)
             set_dialog(completed_order_filter, completed_order_sort)
         }
+
+        val order_address = intent.getStringExtra("order_address")
+        val order_no = intent.getStringExtra("order_number")
+
+        this.title = order_address + " " + order_no
 
         db.collection(docid).document(order_id)
                 .get()

@@ -16,10 +16,6 @@ class RecycleView_Adapter(
     var oa_bool = false
     var drawer_selection = 0
 
-    fun bool_switch() {
-        oa_bool = true
-    }
-
     fun drawer_sel_set(x : Int) {
         drawer_selection = x
     }
@@ -41,16 +37,17 @@ class RecycleView_Adapter(
                     val act_origin = mcontext as Activity
                     val i = Intent(act_origin, Order_Activity::class.java)
                     i.putExtra("order_id", orderlist[position][3])
-                    i.putExtra("order_index", position)
-                    i.putExtra("docid", "Orders")
-                    act_origin.startActivityForResult(i, 1)
-                }
-                else if (drawer_selection == 1){
-                    val act_origin = mcontext as Activity
-                    val i = Intent(act_origin, Order_Activity::class.java)
-                    i.putExtra("order_id", orderlist[position][3])
-                    i.putExtra("docid", "Completed_orders")
-                    act_origin.startActivity(i)
+                    i.putExtra("order_address", orderlist[position][0])
+                    i.putExtra("order_number", orderlist[position][1])
+                    if (drawer_selection == 0) {
+                        i.putExtra("docid", "Orders")
+                        i.putExtra("order_index", position)
+                        act_origin.startActivityForResult(i, 1)
+                    }
+                    else {
+                        i.putExtra("docid", "Completed_orders")
+                        act_origin.startActivity(i)
+                    }
                 }
             }
         }

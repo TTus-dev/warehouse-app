@@ -36,7 +36,7 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
     private val RV_Adapter = RecycleView_Adapter(this, rv_list)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        RV_Adapter.bool_switch()
+        RV_Adapter.oa_bool = true
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_r_v_activity)
@@ -104,9 +104,18 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
         default_rv_list.clear()
         default_rv_list.addAll(rv_list)
         rv_list.clear()
-        for ( i in 0..default_rv_list.size-1){
-            if (filtered_txt == default_rv_list[i][field_id]) {
-                rv_list.add(default_rv_list[i])
+        if (field_id == 0) {
+            for (i in 0..default_rv_list.size - 1) {
+                if (default_rv_list[i][field_id].contains(filtered_txt, true)) {
+                    rv_list.add(default_rv_list[i])
+                }
+            }
+        }
+        else{
+            for (i in 0..default_rv_list.size - 1) {
+                if (default_rv_list[i][field_id].toInt() == filtered_txt.toInt()) {
+                    rv_list.add(default_rv_list[i])
+                }
             }
         }
         empty_list()
