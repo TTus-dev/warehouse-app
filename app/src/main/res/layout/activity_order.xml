@@ -10,7 +10,7 @@
         android:id="@+id/order_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/order_items_filter"
+        app:layout_constraintBottom_toTopOf="@+id/readybtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,20 +19,33 @@
 
     <Button
         android:id="@+id/order_items_filter"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Filtruj"
-        app:layout_constraintBottom_toTopOf="@+id/readybtn"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/order_items_sort"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/order_items_sort"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Sortuj"
+        android:layout_marginHorizontal="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/order_items_filter" />
 
     <Button
         android:id="@+id/readybtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_marginHorizontal="6dp"
         android:text="Zatwierdź zamówienie"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/order_items_filter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

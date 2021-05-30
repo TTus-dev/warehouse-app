@@ -11,9 +11,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Filtruj"
+        android:layout_marginHorizontal="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/completed_order_sort"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/completed_order_sort"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Sortuj"
+        android:layout_marginHorizontal="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/completed_order_filter" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/order_rv"

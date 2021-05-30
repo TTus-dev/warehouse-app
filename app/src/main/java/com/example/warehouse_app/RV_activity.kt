@@ -3,7 +3,7 @@ package com.example.warehouse_app
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.icu.util.RangeValueIterator
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -21,7 +21,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import kotlin.collections.ArrayList
 
-class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FilterDialog.DialogListener {
+class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
+    ,FilterDialog.DialogListener
+    ,SortDialog.DialogListener {
 
     private val db = FirebaseFirestore.getInstance()
     private var db_call_val = "Orders"
@@ -69,18 +71,33 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
         }
 
         filter.setOnClickListener {
-            val exdialog = FilterDialog()
-            exdialog.show(supportFragmentManager, "Dialog")
+            FilterDialog().show(supportFragmentManager, "Dialog")
+        }
+        sort.setOnClickListener {
+            SortDialog().show(supportFragmentManager, "Dialog")
         }
     }
 
     fun empty_list() {
-        if (rv_list.size > 0){
+        if (rv_list.size > 0) {
             empty_txtvw.visibility = View.GONE
-        }
-        else{
+        } else {
             empty_txtvw.visibility = View.VISIBLE
         }
+    }
+
+
+    override fun Sort(field_id: Int, desc: Boolean) {
+        Resetfilter()
+        default_rv_list.clear()
+        default_rv_list.addAll(rv_list)
+        heap_sort(rv_list, field_id)
+        if (desc) { rv_list.reverse() }
+        RV_Adapter.notifyDataSetChanged()
+    }
+
+    override fun ResetSort() {
+        Resetfilter()
     }
 
     override fun Filter(filtered_txt: String, field_id: Int) {
@@ -191,7 +208,6 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
             R.id.nav_current_orders ->
             {
                 default_rv_list.clear()
-                swipe_refreshlayout.isEnabled = true
                 db_call_val = "Orders"
                 db_call(db_call_val)
                 RV_Adapter.drawer_sel_set(0)
@@ -201,8 +217,8 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
             R.id.nav_completed_orders ->
             {
                 default_rv_list.clear()
-                swipe_refreshlayout.isEnabled = false
-                swipe_refreshlayout.isRefreshing = false
+                /*swipe_refreshlayout.isEnabled = false
+                swipe_refreshlayout.isRefreshing = false*/
                 db_call_val = "Completed_orders"
                 db_call(db_call_val)
                 RV_Adapter.drawer_sel_set(1)
@@ -222,6 +238,7 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
     @Suppress("UNCHECKED_CAST")
     private fun db_call(type : String) {
         rv_list.clear()
+        swipe_refreshlayout.isRefreshing = true
         db.collection(type)
             .whereEqualTo("worker_id", user_id)
             .get()
@@ -242,6 +259,7 @@ class RV_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
                                 rv_list.add(inner_array)
                             }
                             empty_list()
+                            swipe_refreshlayout.isRefreshing = false
                             RV_Adapter.notifyDataSetChanged()
                         }
                     }

@@ -2,7 +2,6 @@ package com.example.warehouse_app
 
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -14,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_order.*
 import kotlinx.android.synthetic.main.activity_order.order_rv
 import kotlinx.android.synthetic.main.activity_order_completed.*
 
-class Order_Activity : AppCompatActivity(), FilterDialog.DialogListener {
+class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.DialogListener{
 
     val db = FirebaseFirestore.getInstance()
     val settings = firestoreSettings {
@@ -26,12 +25,25 @@ class Order_Activity : AppCompatActivity(), FilterDialog.DialogListener {
     var default_item_list = ArrayList<ArrayList<String>>()
     var item_list = ArrayList<ArrayList<String>>()
     var item_ids_arr = ArrayList<String>()
-    val dialog = FilterDialog()
     private val RV_Adapter = RecycleView_Adapter(this, item_list)
 
     override fun onBackPressed(){
         super.onBackPressed()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    }
+
+    override fun Sort(field_id: Int, desc: Boolean) {
+        Resetfilter()
+        items_bool = false
+        default_item_list.clear()
+        default_item_list.addAll(item_list)
+        heap_sort(item_list, field_id)
+        if (desc) { item_list.reverse() }
+        RV_Adapter.notifyDataSetChanged()
+    }
+
+    override fun ResetSort() {
+        Resetfilter()
     }
 
     override fun Filter(filtered_txt: String, field_id: Int) {
@@ -56,10 +68,16 @@ class Order_Activity : AppCompatActivity(), FilterDialog.DialogListener {
         }
     }
 
-    fun set_dialog(btn : Button){
-        btn.setOnClickListener {
-            dialog.completed_bool = true
-            dialog.show(supportFragmentManager, "Dialog")
+    fun set_dialog(btn1 : Button, btn2 : Button){
+        val dialog1 = FilterDialog()
+        val dialog2 = SortDialog()
+        dialog1.items_bool = true
+        btn1.setOnClickListener {
+            dialog1.show(supportFragmentManager, "Dialog")
+        }
+        dialog2.items_bool = true
+        btn2.setOnClickListener {
+            dialog2.show(supportFragmentManager, "Dialog")
         }
     }
 
@@ -90,11 +108,11 @@ class Order_Activity : AppCompatActivity(), FilterDialog.DialogListener {
                 alert_builder.setPositiveButton("Nie"){ _: DialogInterface, _: Int ->}
                 alert_builder.show()
             }
-            set_dialog(order_items_filter)
+            set_dialog(order_items_filter, order_items_sort)
         }
         else {
             setContentView(R.layout.activity_order_completed)
-            set_dialog(completed_order_filter)
+            set_dialog(completed_order_filter, completed_order_sort)
         }
 
         db.collection(docid).document(order_id)

@@ -8,16 +8,18 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.appcompat.widget.SwitchCompat
 
-class FilterDialog : AppCompatDialogFragment() {
+class SortDialog : AppCompatDialogFragment() {
 
     lateinit private var listener : DialogListener
 
-    lateinit var filter_edittext : EditText
+    lateinit var switch : SwitchCompat
     lateinit var spinner : Spinner
 
-    lateinit var oc_edittext : EditText
+    lateinit var oc_switch : SwitchCompat
     lateinit var oc_spinner : Spinner
 
     var items_bool = false
@@ -27,35 +29,35 @@ class FilterDialog : AppCompatDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)
         val inflater = activity?.layoutInflater
-        val view = inflater?.inflate(R.layout.layout_dialog, null)
+        val view = inflater?.inflate(R.layout.layout_dialog_sort, null)
 
-        filter_edittext = view!!.findViewById(R.id.filtered_text)
-        spinner = view!!.findViewById(R.id.field_spinner)
+        switch = view!!.findViewById(R.id.desc1)
+        spinner = view!!.findViewById(R.id.field_spinner1)
 
-        oc_spinner = view!!.findViewById(R.id.field_spinner_completed_order)
-        oc_edittext = view!!.findViewById(R.id.filtered_text_completed_order)
+        oc_switch = view!!.findViewById(R.id.desc2)
+        oc_spinner = view!!.findViewById(R.id.field_spinner2)
 
         if (items_bool){
-            filter_edittext.visibility = View.GONE
+            switch.visibility = View.GONE
             spinner.visibility = View.GONE
             oc_spinner.visibility = View.VISIBLE
-            oc_edittext.visibility = View.VISIBLE
+            oc_switch.visibility = View.VISIBLE
         }
 
         builder.setView(view)
-            .setTitle("Filtruj")
+            .setTitle("Sortuj")
             .setPositiveButton("Anuluj") { _, _ -> }
             .setNeutralButton("Reset") { _, _ ->
-                listener.Resetfilter()
+                listener.ResetSort()
             }
             .setNegativeButton("Zapisz") { _, _ ->
-                val filtered: String
-                filtered = if (items_bool) {
-                    oc_edittext.text.toString()
+                val desc : Boolean
+                desc = if (items_bool) {
+                    oc_switch.isChecked
                 } else {
-                    filter_edittext.text.toString()
+                    switch.isChecked
                 }
-                listener.Filter(filtered, field_id)
+                listener.Sort(field_id, desc)
             }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -93,7 +95,7 @@ class FilterDialog : AppCompatDialogFragment() {
     }
 
     interface DialogListener{
-        fun Filter(filtered_txt : String, field_id : Int)
-        fun Resetfilter()
+        fun Sort(field_id : Int, desc : Boolean)
+        fun ResetSort()
     }
 }
