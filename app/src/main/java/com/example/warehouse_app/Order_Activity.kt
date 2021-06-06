@@ -3,6 +3,8 @@ package com.example.warehouse_app
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -23,6 +25,10 @@ class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.Dial
     var order_id = ""
     var order_index = 0
     var docid = ""
+    private var filter_str = ""
+    private var filter_index = -1
+    private var sort_index = -1
+    private var sort_type = -1
     var default_item_list = ArrayList<ArrayList<String>>()
     var item_list = ArrayList<ArrayList<String>>()
     var item_ids_arr = ArrayList<String>()
@@ -33,49 +39,87 @@ class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.Dial
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
-    override fun Sort(field_id: Int, desc: Boolean) {
-        Resetfilter()
-        items_bool = false
-        default_item_list.clear()
-        default_item_list.addAll(item_list)
-        heap_sort(item_list, field_id)
-        if (desc) { item_list.reverse() }
-        RV_Adapter.notifyDataSetChanged()
-    }
-
-    override fun ResetSort() {
-        Resetfilter()
-    }
-
-    override fun Filter(filtered_txt: String, field_id: Int) {
-        Resetfilter()
-        default_item_list.clear()
-        default_item_list.addAll(item_list)
-        item_list.clear()
-        if (field_id > 1){
-            for (i in 0..default_item_list.size - 1) {
-                if (default_item_list[i][field_id].toInt() == filtered_txt.toInt()) {
-                    item_list.add(default_item_list[i])
-                }
-            }
-        }
-        else {
-            for (i in 0..default_item_list.size - 1) {
-                if (default_item_list[i][field_id].contains(filtered_txt, true)) {
-                    item_list.add(default_item_list[i])
-                }
-            }
-        }
-        RV_Adapter.notifyDataSetChanged()
-    }
-
-    override fun Resetfilter() {
+    fun reset_rvlist()
+    {
         if (default_item_list.size != 0) {
             item_list.clear()
             item_list.addAll(default_item_list)
             default_item_list.clear()
-            RV_Adapter.notifyDataSetChanged()
         }
+    }
+
+    override fun Sort(field_id: Int, desc: Int) {
+        if (filter_str == "" && filter_index == -1)
+        {
+            default_item_list.clear()
+            default_item_list.addAll(item_list)
+        }
+        sort_index = field_id
+        sort_type = desc
+        heap_sort(item_list, field_id)
+        if (desc == 1) { item_list.reverse() }
+        RV_Adapter.notifyDataSetChanged()
+    }
+
+    override fun ResetSort()
+    {
+        Log.d("dbg", "Test: $filter_index, $filter_str")
+        sort_type = -1
+        sort_index = -1
+        reset_rvlist()
+        if (filter_str != "" && filter_index > -1)
+        {
+            Filter(filter_str, filter_index)
+        }
+        RV_Adapter.notifyDataSetChanged()
+    }
+
+    override fun Filter(filtered_txt: String, field_id: Int) {
+        Resetfilter()
+        var _filter_helper = ArrayList<ArrayList<String>>()
+        if (sort_type == -1 && sort_index == -1)
+        {
+            default_item_list.clear()
+            default_item_list.addAll(item_list)
+        }
+        filter_index = field_id
+        filter_str = filtered_txt
+        _filter_helper.addAll(item_list)
+        item_list.clear()
+        if (field_id == 2)
+        {
+            for (i in 0.._filter_helper.size - 1)
+            {
+                if (_filter_helper[i][field_id].toInt() == filtered_txt.toInt())
+                {
+                    item_list.add(_filter_helper[i])
+                }
+            }
+        }
+        else
+        {
+            for (i in 0.._filter_helper.size - 1)
+            {
+                if (_filter_helper[i][field_id].contains(filtered_txt, true))
+                {
+                    item_list.add(_filter_helper[i])
+                }
+            }
+        }
+        RV_Adapter.notifyDataSetChanged()
+    }
+
+    override fun Resetfilter()
+    {
+        Log.d("dbg", "Test: $sort_index, $sort_type")
+        filter_index = -1
+        filter_str = ""
+        reset_rvlist()
+        if (sort_index > -1 && sort_type > -1)
+        {
+            Sort(sort_index, sort_type)
+        }
+        RV_Adapter.notifyDataSetChanged()
     }
 
     fun set_dialog(btn1 : Button, btn2 : Button){

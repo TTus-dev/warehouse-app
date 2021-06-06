@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -29,8 +30,12 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
     private val settings = firestoreSettings {
         isPersistenceEnabled = false
     }
-    lateinit var drawer : DrawerLayout
+    lateinit var drawer: DrawerLayout
     private var user_id = ""
+    private var filter_str = ""
+    private var filter_index = -1
+    private var sort_index = -1
+    private var sort_type = -1
     private var default_rv_list = ArrayList<ArrayList<String>>()
     private var rv_list = ArrayList<ArrayList<String>>()
     private val RV_Adapter = RecycleView_Adapter(this, rv_list)
@@ -45,8 +50,10 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
         setSupportActionBar(toolbar)
 
         drawer = findViewById(R.id.drawer_recycler_layout)
-        val toggle = ActionBarDrawerToggle(this, drawer, toolbar,
-            R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(
+            this, drawer, toolbar,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -63,7 +70,7 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
         main_recycler.layoutManager = LinearLayoutManager(this)
 
         swipe_refreshlayout.setOnRefreshListener {
-            if (db_call_val == "Orders"){
+            if (db_call_val == "Orders") {
                 db_call(db_call_val)
                 RV_Adapter.notifyDataSetChanged()
             }
@@ -85,36 +92,65 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
         }
     }
 
+    fun reset_rvlist()
+    {
+        if (default_rv_list.size != 0) {
+            rv_list.clear()
+            rv_list.addAll(default_rv_list)
+            default_rv_list.clear()
+            empty_list()
+        }
+    }
 
-    override fun Sort(field_id: Int, desc: Boolean) {
-        Resetfilter()
-        default_rv_list.clear()
-        default_rv_list.addAll(rv_list)
+    override fun Sort(field_id: Int, desc: Int) {
+        if (filter_str == "" && filter_index == -1)
+        {
+            default_rv_list.clear()
+            default_rv_list.addAll(rv_list)
+        }
+        sort_index = field_id
+        sort_type = desc
         heap_sort(rv_list, field_id)
-        if (desc) { rv_list.reverse() }
+        if (desc == 1) { rv_list.reverse() }
         RV_Adapter.notifyDataSetChanged()
     }
 
-    override fun ResetSort() {
-        Resetfilter()
+    override fun ResetSort()
+    {
+        Log.d("dbg", "Test: $filter_index, $filter_str")
+        sort_type = -1
+        sort_index = -1
+        reset_rvlist()
+        if (filter_str != "" && filter_index > -1)
+        {
+            Filter(filter_str, filter_index)
+        }
+        RV_Adapter.notifyDataSetChanged()
     }
 
     override fun Filter(filtered_txt: String, field_id: Int) {
         Resetfilter()
-        default_rv_list.clear()
-        default_rv_list.addAll(rv_list)
+        var _filter_helper = ArrayList<ArrayList<String>>()
+        if (sort_type == -1 && sort_index == -1)
+        {
+            default_rv_list.clear()
+            default_rv_list.addAll(rv_list)
+        }
+        filter_index = field_id
+        filter_str = filtered_txt
+        _filter_helper.addAll(rv_list)
         rv_list.clear()
         if (field_id == 0) {
-            for (i in 0..default_rv_list.size - 1) {
-                if (default_rv_list[i][field_id].contains(filtered_txt, true)) {
-                    rv_list.add(default_rv_list[i])
+            for (i in 0.._filter_helper.size - 1) {
+                if (_filter_helper[i][field_id].contains(filtered_txt, true)) {
+                    rv_list.add(_filter_helper[i])
                 }
             }
         }
         else{
-            for (i in 0..default_rv_list.size - 1) {
-                if (default_rv_list[i][field_id].toInt() == filtered_txt.toInt()) {
-                    rv_list.add(default_rv_list[i])
+            for (i in 0.._filter_helper.size - 1) {
+                if (_filter_helper[i][field_id].toInt() == filtered_txt.toInt()) {
+                    rv_list.add(_filter_helper[i])
                 }
             }
         }
@@ -122,14 +158,17 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
         RV_Adapter.notifyDataSetChanged()
     }
 
-    override fun Resetfilter() {
-        if (default_rv_list.size != 0) {
-            rv_list.clear()
-            rv_list.addAll(default_rv_list)
-            default_rv_list.clear()
-            empty_list()
-            RV_Adapter.notifyDataSetChanged()
+    override fun Resetfilter()
+    {
+        Log.d("dbg", "Test: $sort_index, $sort_type")
+        filter_index = -1
+        filter_str = ""
+        reset_rvlist()
+        if (sort_index > -1 && sort_type > -1)
+        {
+            Sort(sort_index, sort_type)
         }
+        RV_Adapter.notifyDataSetChanged()
     }
 
     @SuppressLint("SetTextI18n")
@@ -225,8 +264,8 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
             R.id.nav_completed_orders ->
             {
                 default_rv_list.clear()
-                /*swipe_refreshlayout.isEnabled = false
-                swipe_refreshlayout.isRefreshing = false*/
+                swipe_refreshlayout.isEnabled = false
+                swipe_refreshlayout.isRefreshing = false
                 db_call_val = "Completed_orders"
                 db_call(db_call_val)
                 RV_Adapter.drawer_sel_set(1)

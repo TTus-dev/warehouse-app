@@ -49,11 +49,13 @@ class SortDialog : AppCompatDialogFragment() {
                 listener.ResetSort()
             }
             .setNegativeButton("Zapisz") { _, _ ->
-                val desc : Boolean
-                desc = if (items_bool) {
-                    oc_switch.isChecked
+                val desc : Int
+                if (items_bool) {
+                    if (oc_switch.isChecked) { desc = 1 }
+                    else { desc = 0 }
                 } else {
-                    switch.isChecked
+                    if (switch.isChecked) { desc = 1 }
+                    else { desc = 0 }
                 }
                 listener.Sort(field_id, desc)
             }
@@ -93,7 +95,7 @@ class SortDialog : AppCompatDialogFragment() {
     }
 
     interface DialogListener{
-        fun Sort(field_id : Int, desc : Boolean)
+        fun Sort(field_id : Int, desc : Int)
         fun ResetSort()
     }
 }

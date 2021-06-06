@@ -33,21 +33,21 @@ class RecycleView_Adapter(
         holder.bind(orderlist[position])
         if (oa_bool) {
             holder.itemView.setOnClickListener {
-                if (drawer_selection == 0) {
-                    val act_origin = mcontext as Activity
-                    val i = Intent(act_origin, Order_Activity::class.java)
-                    i.putExtra("order_id", orderlist[position][3])
-                    i.putExtra("order_address", orderlist[position][0])
-                    i.putExtra("order_number", orderlist[position][1])
-                    if (drawer_selection == 0) {
-                        i.putExtra("docid", "Orders")
-                        i.putExtra("order_index", position)
-                        act_origin.startActivityForResult(i, 1)
-                    }
-                    else {
-                        i.putExtra("docid", "Completed_orders")
-                        act_origin.startActivity(i)
-                    }
+                val act_origin = mcontext as Activity
+                val i = Intent(act_origin, Order_Activity::class.java)
+                i.putExtra("order_id", orderlist[position][3])
+                i.putExtra("order_address", orderlist[position][0])
+                i.putExtra("order_number", orderlist[position][1])
+                if (drawer_selection == 0)
+                {
+                    i.putExtra("docid", "Orders")
+                    i.putExtra("order_index", position)
+                    act_origin.startActivityForResult(i, 1)
+                }
+                else
+                {
+                    i.putExtra("docid", "Completed_orders")
+                    act_origin.startActivity(i)
                 }
             }
         }
