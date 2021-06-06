@@ -3,8 +3,6 @@ package com.example.warehouse_app
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,7 +12,6 @@ import com.google.firebase.firestore.ktx.firestoreSettings
 import kotlinx.android.synthetic.main.activity_order.*
 import kotlinx.android.synthetic.main.activity_order.order_rv
 import kotlinx.android.synthetic.main.activity_order_completed.*
-import kotlinx.android.synthetic.main.activity_r_v_activity.*
 
 class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.DialogListener{
 
@@ -63,7 +60,6 @@ class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.Dial
 
     override fun ResetSort()
     {
-        Log.d("dbg", "Test: $filter_index, $filter_str")
         sort_type = -1
         sort_index = -1
         reset_rvlist()
@@ -111,7 +107,6 @@ class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.Dial
 
     override fun Resetfilter()
     {
-        Log.d("dbg", "Test: $sort_index, $sort_type")
         filter_index = -1
         filter_str = ""
         reset_rvlist()
