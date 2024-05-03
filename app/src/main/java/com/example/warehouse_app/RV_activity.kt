@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_r_v_activity.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import kotlin.collections.ArrayList
+import com.example.warehouse_app.R
 
 class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
     ,FilterDialog.DialogListener
@@ -188,8 +189,8 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
 
     private fun alert(){
         val alert_builder = AlertDialog.Builder(this)
-        alert_builder.setTitle("Czy napewno chcesz się wylogować")
-        alert_builder.setNegativeButton("Tak") { _: DialogInterface, _: Int ->
+        alert_builder.setTitle(R.string.logout_dialog_title)
+        alert_builder.setNegativeButton(R.string.yes) { _: DialogInterface, _: Int ->
             val preference = getSharedPreferences("log_prefs", MODE_PRIVATE)
             val editor = preference.edit()
             editor.putBoolean("lgdin", false)
@@ -198,7 +199,7 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
             super.onBackPressed()
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
-        alert_builder.setPositiveButton("Nie"){ _: DialogInterface, _: Int ->}
+        alert_builder.setPositiveButton(R.string.no){ _: DialogInterface, _: Int ->}
         alert_builder.show()
     }
 

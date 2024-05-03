@@ -43,12 +43,12 @@ class FilterDialog : AppCompatDialogFragment() {
         }
 
         builder.setView(view)
-            .setTitle("Filtruj")
-            .setPositiveButton("Anuluj") { _, _ -> }
-            .setNeutralButton("Reset") { _, _ ->
+            .setTitle(R.string.dialog_filter)
+            .setPositiveButton(R.string.cancel) { _, _ -> }
+            .setNeutralButton(R.string.reset) { _, _ ->
                 listener.Resetfilter()
             }
-            .setNegativeButton("Zapisz") { _, _ ->
+            .setNegativeButton(R.string.apply) { _, _ ->
                 val filtered: String
                 filtered = if (items_bool) {
                     oc_edittext.text.toString()

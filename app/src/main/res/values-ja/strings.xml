@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="error">Error</string>
+    <string name="app_name">ウェアハウス ヘルパ</string>
+    <string name="dialog_filter">フィルタ</string>
+    <string name="dialog_sort">並べ替え</string>
+    <string name="order_confirm">注文を確認する</string>
+    <string name="password_hint">パスワード</string>
+    <string name="login_button">ログイン</string>
+    <string name="no_orders">結果はありません</string>
+    <string name="filter_dialog_hint">検索されたテキスト</string>
+    <string name="sort_dialog_mode">降順</string>
+    <string name="logged_in_drawer">ログイン名:</string>
+    <string name="logout_dialog_title">ログアウトしてもよろしいですか?</string>
+    <string name="order_confirm_dialog_title">注文を確認してもよろしいですか?</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="cancel">キャンセル</string>
+    <string name="reset">リセット</string>
+    <string name="apply">適用する</string>
+    <string name="current_orders">アクティブな注文</string>
+    <string name="history_orders">アーカイブされた注文</string>
+    <string name="logout">ログアウト</string>
+    <string name="address">住所</string>
+    <string name="number">番号</string>
+    <string name="quantity">数量</string>
+    <string name="code">コード</string>
+</resources>

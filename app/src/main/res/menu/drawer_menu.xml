@@ -8,17 +8,17 @@
         <item
             android:id="@+id/nav_current_orders"
             android:icon="@drawable/ic_curr_orders"
-            android:title="Aktualne zamówienia" />
+            android:title="@string/current_orders" />
 
         <item
             android:id="@+id/nav_completed_orders"
             android:icon="@drawable/ic_old_orders"
-            android:title="Historia zamówień" />
+            android:title="@string/history_orders" />
 
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"
-            android:title="Wyloguj" />
+            android:title="@string/logout" />
 
     </group>
 

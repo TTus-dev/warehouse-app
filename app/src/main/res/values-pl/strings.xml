@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="error">Error</string>
+    <string name="app_name">Pomocnik magazynowy</string>
+    <string name="dialog_filter">Filtruj</string>
+    <string name="dialog_sort">Sortuj</string>
+    <string name="order_confirm">Zatwierdź zamówienie</string>
+    <string name="password_hint">Hasło</string>
+    <string name="login_button">Zaloguj</string>
+    <string name="no_orders">Brak wyników</string>
+    <string name="filter_dialog_hint">Szukany tekst</string>
+    <string name="sort_dialog_mode">Malejąco</string>
+    <string name="logged_in_drawer">Zalogowany jako:</string>
+    <string name="logout_dialog_title">Czy napewno chcesz się wylogować ?</string>
+    <string name="order_confirm_dialog_title">Czy napewno chcesz zatwierdzić zamówienie ?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="cancel">Anuluj</string>
+    <string name="reset">Reset</string>
+    <string name="apply">Zapisz</string>
+    <string name="current_orders">Aktywne zamówienia</string>
+    <string name="history_orders">Historia zamówień</string>
+    <string name="logout">Wyloguj</string>
+    <string name="address">Adres</string>
+    <string name="number">Numer</string>
+    <string name="quantity">Ilość</string>
+    <string name="code">Kod</string>
+</resources>

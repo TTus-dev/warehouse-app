@@ -43,12 +43,12 @@ class SortDialog : AppCompatDialogFragment() {
         }
 
         builder.setView(view)
-            .setTitle("Sortuj")
-            .setPositiveButton("Anuluj") { _, _ -> }
-            .setNeutralButton("Reset") { _, _ ->
+            .setTitle(R.string.dialog_sort)
+            .setPositiveButton(R.string.cancel) { _, _ -> }
+            .setNeutralButton(R.string.reset) { _, _ ->
                 listener.ResetSort()
             }
-            .setNegativeButton("Zapisz") { _, _ ->
+            .setNegativeButton(R.string.apply) { _, _ ->
                 val desc : Int
                 if (items_bool) {
                     if (oc_switch.isChecked) { desc = 1 }

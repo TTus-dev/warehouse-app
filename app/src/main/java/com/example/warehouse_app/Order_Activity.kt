@@ -144,8 +144,8 @@ class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.Dial
             setContentView(R.layout.activity_order)
             readybtn.setOnClickListener {
                 val alert_builder = AlertDialog.Builder(this)
-                alert_builder.setTitle("Czy napewno chcesz zatwierdzić zamówienie ?")
-                alert_builder.setNegativeButton("Tak") { _: DialogInterface, _: Int ->
+                alert_builder.setTitle(R.string.order_confirm_dialog_title)
+                alert_builder.setNegativeButton(R.string.yes) { _: DialogInterface, _: Int ->
                     val result_intent = Intent()
                     result_intent.putExtra("result", order_index)
                     result_intent.putExtra("document_id", order_id)
@@ -153,7 +153,7 @@ class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.Dial
                     finish()
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 }
-                alert_builder.setPositiveButton("Nie"){ _: DialogInterface, _: Int ->}
+                alert_builder.setPositiveButton(R.string.no){ _: DialogInterface, _: Int ->}
                 alert_builder.show()
             }
             set_dialog(order_items_filter, order_items_sort)
@@ -190,12 +190,12 @@ class Order_Activity : Heap_sort(), FilterDialog.DialogListener, SortDialog.Dial
                                     RV_Adapter.notifyDataSetChanged()
                                 }
                                 .addOnFailureListener {
-                                    Toast.makeText(this, "Wystąpił błąd", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show()
                                 }
                     }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Wystąpił błąd", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show()
                 }
 
         order_rv.adapter = RV_Adapter

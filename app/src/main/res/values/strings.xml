@@ -1,15 +1,39 @@
 <resources>
-    <string name="app_name">warehouse-app</string>
+    <string name="app_name">Warehouse Helper</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="dialog_filter">Filter</string>
+    <string name="dialog_sort">Sort</string>
+    <string name="order_confirm">Confirm order</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Log In</string>
+    <string name="no_orders">No results</string>
+    <string name="filter_dialog_hint">Searched text</string>
+    <string name="sort_dialog_mode">Descending</string>
+    <string name="logged_in_drawer">Logged in as:</string>
+    <string name="logout_dialog_title">Are you sure you want to log out ?</string>
+    <string name="order_confirm_dialog_title">Are you sure you want to confirm order ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset">Reset</string>
+    <string name="apply">Apply</string>
+    <string name="error">Error</string>
+    <string name="current_orders">Active orders</string>
+    <string name="history_orders">Archived orders</string>
+    <string name="logout">Log out</string>
+    <string name="address">Address</string>
+    <string name="number">Number</string>
+    <string name="quantity">Quantity</string>
+    <string name="code">Code</string>
     <string-array name="spinner_items">
-        <item>Adres</item>
-        <item>Numer</item>
-        <item>Ilość</item>
+        <item>@string/address</item>
+        <item>@string/number</item>
+        <item>@string/quantity</item>
     </string-array>
     <string-array name="order_spinner_items">
-        <item>Adres</item>
-        <item>Kod</item>
-        <item>Ilość</item>
+        <item>@string/address</item>
+        <item>@string/code</item>
+        <item>@string/quantity</item>
     </string-array>
 </resources>
