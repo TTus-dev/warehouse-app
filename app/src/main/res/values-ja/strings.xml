@@ -7,6 +7,7 @@
     <string name="dialog_filter">フィルタ</string>
     <string name="dialog_sort">並べ替え</string>
     <string name="order_confirm">注文を確認する</string>
+    <string name="login_hint">ログイン名</string>
     <string name="password_hint">パスワード</string>
     <string name="login_button">ログイン</string>
     <string name="no_orders">結果はありません</string>

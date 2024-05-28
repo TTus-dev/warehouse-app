@@ -7,6 +7,7 @@
     <string name="dialog_filter">Filtruj</string>
     <string name="dialog_sort">Sortuj</string>
     <string name="order_confirm">Zatwierdź zamówienie</string>
+    <string name="login_hint">Nazwa</string>
     <string name="password_hint">Hasło</string>
     <string name="login_button">Zaloguj</string>
     <string name="no_orders">Brak wyników</string>

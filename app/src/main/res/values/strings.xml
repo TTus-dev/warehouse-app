@@ -5,6 +5,7 @@
     <string name="dialog_filter">Filter</string>
     <string name="dialog_sort">Sort</string>
     <string name="order_confirm">Confirm order</string>
+    <string name="login_hint">Login</string>
     <string name="password_hint">Password</string>
     <string name="login_button">Log In</string>
     <string name="no_orders">No results</string>
