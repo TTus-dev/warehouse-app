@@ -10,7 +10,6 @@
     <string name="login_hint">ログイン名</string>
     <string name="password_hint">パスワード</string>
     <string name="login_button">ログイン</string>
-    <string name="no_orders">結果はありません</string>
     <string name="filter_dialog_hint">検索されたテキスト</string>
     <string name="sort_dialog_mode">降順</string>
     <string name="logged_in_drawer">ログイン名:</string>

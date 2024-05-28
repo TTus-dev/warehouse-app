@@ -8,7 +8,6 @@
     <string name="login_hint">Login</string>
     <string name="password_hint">Password</string>
     <string name="login_button">Log In</string>
-    <string name="no_orders">No results</string>
     <string name="filter_dialog_hint">Searched text</string>
     <string name="sort_dialog_mode">Descending</string>
     <string name="logged_in_drawer">Logged in as:</string>

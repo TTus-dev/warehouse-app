@@ -5,9 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -19,7 +17,6 @@ import kotlinx.android.synthetic.main.activity_r_v_activity.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import kotlin.collections.ArrayList
-import com.example.warehouse_app.R
 
 class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
     ,FilterDialog.DialogListener
@@ -84,21 +81,12 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
         }
     }
 
-    fun empty_list() {
-        if (rv_list.size > 0) {
-            empty_txtvw.visibility = View.GONE
-        } else {
-            empty_txtvw.visibility = View.VISIBLE
-        }
-    }
-
     fun reset_rvlist()
     {
         if (default_rv_list.size != 0) {
             rv_list.clear()
             rv_list.addAll(default_rv_list)
             default_rv_list.clear()
-            empty_list()
         }
     }
 
@@ -153,7 +141,6 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
                 }
             }
         }
-        empty_list()
         RV_Adapter.notifyDataSetChanged()
     }
 
@@ -180,9 +167,6 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
                     navigview.getHeaderView(0).findViewById<TextView>(R.id.user_credentials)
                         .text = it.result?.data!!["Name"] as String +
                             " " + it.result?.data!!["Surname"] as String
-                }
-                else if (!it.isSuccessful){
-                    Toast.makeText(this, "Wystąpił błąd", Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -231,8 +215,6 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
                     rv_list.removeAt(array_id)
                     RV_Adapter.notifyDataSetChanged()
                 }
-                else
-                    Toast.makeText(this, "Wystąpił błąd", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -303,13 +285,9 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
                             if (!rv_list.contains(inner_array)){
                                 rv_list.add(inner_array)
                             }
-                            empty_list()
                             swipe_refreshlayout.isRefreshing = false
                             RV_Adapter.notifyDataSetChanged()
                         }
-                    }
-                    else if (!it.isSuccessful){
-                        Toast.makeText(this, "Wystąpił błąd", Toast.LENGTH_SHORT).show()
                     }
                 swipe_refreshlayout.isRefreshing = false
                 }
