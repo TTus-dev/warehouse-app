@@ -235,7 +235,7 @@ class RV_activity : Heap_sort(), NavigationView.OnNavigationItemSelectedListener
             R.id.nav_current_orders ->
             {
                 default_rv_list.clear()
-                swipe_refreshlayout.isEnabled = false
+                swipe_refreshlayout.isEnabled = true
                 db_call_val = "Orders"
                 db_call(db_call_val)
                 RV_Adapter.drawer_sel_set(0)
